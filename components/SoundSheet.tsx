@@ -1,6 +1,12 @@
-import BottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet';
-import React, { useCallback, useMemo, useRef } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import {
+    Modal,
+    Pressable,
+    ScrollView,
+    StyleSheet,
+    Text,
+    View
+} from 'react-native';
 import { MOCK_SOUNDS } from '../constants/sounds';
 import { Colors } from '../theme/colors';
 
@@ -11,46 +17,25 @@ interface SoundSheetProps {
 }
 
 export function SoundSheet({ onDismiss, selectedSoundId, onSelectSound }: SoundSheetProps) {
-    const bottomSheetRef = useRef<BottomSheet>(null);
-
-    // variables
-    const snapPoints = useMemo(() => ['50%', '75%'], []);
-
-    // callbacks
-    const handleSheetChanges = useCallback((index: number) => {
-        if (index === -1) {
-            onDismiss();
-        }
-    }, [onDismiss]);
-
-    const renderBackdrop = useCallback(
-        (props: any) => (
-            <BottomSheetBackdrop
-                {...props}
-                appearsOnIndex={0}
-                disappearsOnIndex={-1}
-                pressBehavior="close"
-            />
-        ),
-        []
-    );
-
     return (
-        <BottomSheet
-            ref={bottomSheetRef}
-            index={0}
-            snapPoints={snapPoints}
-            onChange={handleSheetChanges}
-            enablePanDownToClose
-            backdropComponent={renderBackdrop}
-            backgroundStyle={styles.sheetBackground}
-            handleIndicatorStyle={styles.handleIndicator}
+        <Modal
+            transparent
+            animationType="slide"
+            visible
+            onRequestClose={onDismiss}
         >
-            <View style={styles.contentContainer}>
+            {/* Backdrop — tap to dismiss */}
+            <Pressable style={styles.backdrop} onPress={onDismiss} />
+
+            {/* Sheet content */}
+            <View style={styles.sheet}>
+                {/* Pull handle */}
+                <View style={styles.handle} />
+
                 <Text style={styles.title}>Notification Sound</Text>
                 <Text style={styles.subtitle}>Select an Adhan or alert tone</Text>
 
-                <View style={styles.listContainer}>
+                <ScrollView style={styles.listContainer} showsVerticalScrollIndicator={false}>
                     {MOCK_SOUNDS.map((sound) => {
                         const isActive = sound.id === selectedSoundId;
                         return (
@@ -62,29 +47,42 @@ export function SoundSheet({ onDismiss, selectedSoundId, onSelectSound }: SoundS
                                 <Text style={[styles.soundName, isActive && styles.textActive]}>
                                     {sound.name}
                                 </Text>
-                                {isActive && (
-                                    <View style={styles.activeDot} />
-                                )}
+                                {isActive && <View style={styles.activeDot} />}
                             </Pressable>
                         );
                     })}
-                </View>
+                </ScrollView>
+
+                {/* Done button */}
+                <Pressable style={styles.doneButton} onPress={onDismiss}>
+                    <Text style={styles.doneButtonText}>Done</Text>
+                </Pressable>
             </View>
-        </BottomSheet>
+        </Modal>
     );
 }
 
 const styles = StyleSheet.create({
-    sheetBackground: {
-        backgroundColor: Colors.primary,
-    },
-    handleIndicator: {
-        backgroundColor: Colors.surface,
-        width: 40,
-    },
-    contentContainer: {
+    backdrop: {
         flex: 1,
-        padding: 24,
+        backgroundColor: 'rgba(0, 0, 0, 0.55)',
+    },
+    sheet: {
+        backgroundColor: Colors.primary,
+        borderTopLeftRadius: 24,
+        borderTopRightRadius: 24,
+        paddingHorizontal: 24,
+        paddingBottom: 40,
+        maxHeight: '70%',
+    },
+    handle: {
+        width: 40,
+        height: 4,
+        backgroundColor: Colors.surface,
+        borderRadius: 2,
+        alignSelf: 'center',
+        marginTop: 12,
+        marginBottom: 20,
     },
     title: {
         color: Colors.text,
@@ -96,10 +94,10 @@ const styles = StyleSheet.create({
         color: Colors.text,
         opacity: 0.7,
         fontSize: 16,
-        marginBottom: 24,
+        marginBottom: 20,
     },
     listContainer: {
-        gap: 12,
+        marginBottom: 16,
     },
     soundItem: {
         backgroundColor: Colors.surface,
@@ -108,6 +106,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        marginBottom: 12,
     },
     soundItemActive: {
         backgroundColor: Colors.accent,
@@ -121,9 +120,20 @@ const styles = StyleSheet.create({
         color: Colors.primary,
     },
     activeDot: {
-        width: 8,
-        height: 8,
-        borderRadius: 4,
+        width: 10,
+        height: 10,
+        borderRadius: 5,
         backgroundColor: Colors.primary,
-    }
+    },
+    doneButton: {
+        backgroundColor: Colors.accent,
+        padding: 16,
+        borderRadius: 14,
+        alignItems: 'center',
+    },
+    doneButtonText: {
+        color: Colors.primary,
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
 });
