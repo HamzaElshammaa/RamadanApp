@@ -1,3 +1,4 @@
+import { Feather } from '@expo/vector-icons';
 import { useState } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
@@ -20,27 +21,29 @@ export default function HomeScreen() {
                     style={styles.settingsButton}
                     hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
                     onPress={() => setSheetVisible(true)}>
-                    <Text style={styles.settingsButtonText}>⚙ Settings</Text>
+                    <Feather name="settings" size={22} color={Colors.text} />
                 </Pressable>
             </View>
 
+
+            {/* Hero Section */}
+            <Animated.View entering={FadeInUp.duration(600).springify()} style={styles.heroSection}>
+                <Text style={styles.heroLabel}>Time until {MOCK_NEXT_PRAYER.name}</Text>
+                <Text style={styles.heroTime}>04:22:10</Text>
+                <Text style={styles.heroSub}>{MOCK_NEXT_PRAYER.name} at {MOCK_NEXT_PRAYER.time}</Text>
+
+                <View style={styles.dateContainer}>
+                    <Text style={styles.datePrimary}>Monday, 11 March</Text>
+                    <Text style={styles.dateSecondary}>1 Ramadan 1445 AH</Text>
+                </View>
+            </Animated.View>
             <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-                {/* Hero Section */}
-                <Animated.View entering={FadeInUp.duration(600).springify()} style={styles.heroSection}>
-                    <Text style={styles.heroLabel}>Time until {MOCK_NEXT_PRAYER.name}</Text>
-                    <Text style={styles.heroTime}>04:22:10</Text>
-                    <Text style={styles.heroSub}>{MOCK_NEXT_PRAYER.name} at {MOCK_NEXT_PRAYER.time}</Text>
-
-                    <View style={styles.dateContainer}>
-                        <Text style={styles.datePrimary}>Monday, 11 March</Text>
-                        <Text style={styles.dateSecondary}>1 Ramadan 1445 AH</Text>
-                    </View>
-                </Animated.View>
-
                 {/* Prayer Grid */}
                 <View style={styles.gridSection}>
                     <Text style={styles.sectionTitle}>Prayer Times</Text>
+
                     <View style={styles.gridContainer}>
+
                         {MOCK_PRAYER_TIMES.map((prayer, index) => {
                             const isNext = prayer.id === MOCK_NEXT_PRAYER.id;
 
@@ -64,14 +67,16 @@ export default function HomeScreen() {
                 </View>
             </ScrollView>
 
-            {isSheetVisible && (
-                <SoundSheet
-                    selectedSoundId={selectedSoundId}
-                    onSelectSound={setSelectedSoundId}
-                    onDismiss={() => setSheetVisible(false)}
-                />
-            )}
-        </SafeAreaView>
+            {
+                isSheetVisible && (
+                    <SoundSheet
+                        selectedSoundId={selectedSoundId}
+                        onSelectSound={setSelectedSoundId}
+                        onDismiss={() => setSheetVisible(false)}
+                    />
+                )
+            }
+        </SafeAreaView >
     );
 }
 
@@ -88,15 +93,12 @@ const styles = StyleSheet.create({
         paddingVertical: 16,
     },
     settingsButton: {
-        paddingVertical: 8,
-        paddingHorizontal: 16,
+        width: 40,
+        height: 40,
         backgroundColor: Colors.surface,
-        borderRadius: 8,
-    },
-    settingsButtonText: {
-        color: Colors.text,
-        fontSize: 14,
-        fontWeight: 'bold',
+        borderRadius: 12,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     heroSection: {
         alignItems: 'center',
