@@ -1,10 +1,21 @@
 import { Stack } from 'expo-router';
+import { useEffect } from 'react';
 import 'react-native-gesture-handler';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { requestLocationPermission, startLocationTracking } from '../services/locationService';
 import { Colors } from '../theme/colors';
 
 export default function RootLayout() {
+  useEffect(() => {
+    (async () => {
+      const granted = await requestLocationPermission();
+      if (granted) {
+        await startLocationTracking();
+      }
+    })();
+  }, []);
+
   return (
     <SafeAreaProvider>
       <GestureHandlerRootView style={{ flex: 1 }}>
