@@ -13,8 +13,12 @@
       "bundleIdentifier": "com.ramadanapp",
       "entitlements": {
         "com.apple.security.application-groups": [
+          "group.com.ramadanapp.shared",
           "group.com.ramadanapp.shared"
         ]
+      },
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
       }
     },
     "android": {
@@ -55,6 +59,29 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "build": {
+          "experimental": {
+            "ios": {
+              "appExtensions": [
+                {
+                  "bundleIdentifier": "com.ramadanapp.widget",
+                  "targetName": "RamadanWidget",
+                  "entitlements": {
+                    "com.apple.security.application-groups": [
+                      "group.com.ramadanapp.shared"
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "projectId": "6381477b-6f0e-457c-b269-bd0f2480da4a"
+      }
     }
   }
 }
