@@ -1,50 +1,59 @@
-# Welcome to your Expo app 👋
+<div align="center">
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+# Ramadan Companion App 🌙✨
 
-## Get started
+### **Cross-Platform Prayer Countdown, Hijri Calendar & Spiritual Companion**
 
-1. Install dependencies
+[![React Native](https://img.shields.io/badge/React_Native-0.81-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactnative.dev/)
+[![Expo](https://img.shields.io/badge/Expo-Router-000020?style=for-the-badge&logo=expo&logoColor=white)](https://expo.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Reanimated](https://img.shields.io/badge/React_Native-Reanimated-FF6B6B?style=for-the-badge)](https://docs.swmansion.com/react-native-reanimated/)
 
-   ```bash
-   npm install
-   ```
+*A serene, distraction-free mobile app for iOS and Android that provides real-time prayer countdowns, GPS-accurate daily prayer schedules, Hijri calendar conversion, and customizable Adhan audio notifications.*
 
-2. Start the app
+</div>
 
-   ```bash
-   npx expo start
-   ```
+---
 
-In the output, you'll find options to open the app in a
+## ✨ Key Features
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- ⏱️ **Live Next-Prayer Hero Countdown (`hooks/useCountdown.ts`):** Second-by-second countdown timer to the upcoming prayer (Fajr, Dhuhr, Asr, Maghrib/Iftar, Isha) with automatic roll-over.
+- 📅 **Dual Gregorian & Astronomical Hijri Date Calculation:** Computes the current Islamic Hijri date alongside the Gregorian calendar directly on-device.
+- 🔔 **Customizable Adhan & Notification Sound Sheet (`components/SoundSheet.tsx`):** Interactive bottom sheet allowing users to preview and select their preferred prayer alert audio.
+- 🎨 **Fluid Spring Animations:** Staggered `FadeInUp` and `FadeInDown` entry animations powered by `react-native-reanimated`.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+---
 
-## Get a fresh project
+## 📂 Project Structure
 
-When you're ready, run:
-
-```bash
-npm run reset-project
+```text
+├── app/
+│   ├── _layout.tsx         # Root Expo Router stack & theme provider
+│   ├── index.tsx           # Main dashboard: live countdown hero, Hijri date & prayer grid
+│   └── modal.tsx           # Settings & detail modal screen
+├── components/
+│   └── SoundSheet.tsx      # Interactive Adhan sound picker bottom sheet
+├── constants/
+│   └── store.ts            # Global state store for prayer schedules & user preferences
+├── hooks/
+│   └── useCountdown.ts     # Precision countdown hook for upcoming prayer transitions
+└── theme/
+    └── colors.ts           # Warm spiritual color palette & surface tokens
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+---
 
-## Learn more
+## 🚀 Getting Started
 
-To learn more about developing your project with Expo, look at the following resources:
+```bash
+# 1. Install dependencies
+npm install
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+# 2. Start the Expo development server
+npx expo start
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+# 3. Run on iOS Simulator or Android Emulator
+npx expo run:ios
+# or
+npx expo run:android
+```
